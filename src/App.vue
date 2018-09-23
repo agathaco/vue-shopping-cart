@@ -1,17 +1,37 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="app">
+    <div class="container">
+      <div class="container-header">
+        <h2>Your shopping</h2>
+      </div>
+      <!-- <Grid :items="itemsArray"></Grid> -->
+      <card :item="item" v-for="(item, index) in this.itemsArray">{{item.name}}</card>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Card from './components/ItemCard.vue';
+import Counter from './components/Counter.vue';
+import Basket from './components/Basket.vue';
+import AddButton from './components/AddButton.vue';
 
 export default {
-  name: 'app',
   components: {
-    HelloWorld
+    Card,
+    AddButton,
+    Counter,
+    Basket
+  },
+  data() {
+    return {
+      itemsArray: [
+        {name: 'Wine', price: "10", description:'Hi, I\'m wine!'},
+        {name: 'Icecream', price: "5", description:'Hi, I\'m Icecream!'},
+        {name: 'Chocolate', price: "3", description:'Hi, I\'m Chocolate!'},
+        {name: 'Cheese', price: "7", description:'Hi, I\'m Cheese!'},
+      ],
+    }
   }
 }
 </script>
