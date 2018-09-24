@@ -1,11 +1,19 @@
 <template>
-  <div class="button">
+  <button class="button" @click="addToCart(item)">
     <slot></slot>
-  </div>
+  </button>
 </template>
 
 <script>
+import { eventBus } from '../main';
+
 export default {
+  props: ['item'],
+  methods: {
+    addToCart(item) {
+        eventBus.$emit('updateCart', item)
+    }
+  }
 }
 </script>
 
@@ -18,5 +26,6 @@ export default {
   display: block;
   background-color: mistyrose;
   cursor: pointer;
+  border:0;
 }
 </style>

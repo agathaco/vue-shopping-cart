@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 
+export const eventBus = new Vue();
+
 Vue.config.productionTip = false;
 
 Vue.filter('currency',(value) => {
-  return '£'+ value.toLocaleString()+ '.00'
+  return '£'+ parseFloat(value).toFixed(2);
 })
 
 new Vue({

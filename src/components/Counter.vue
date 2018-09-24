@@ -16,7 +16,7 @@ export default {
       }
     },
     methods: {
-      increment(count) {
+      increment() {
         this.count++;
         this.$emit('updateCount', this.count)
       },

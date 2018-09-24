@@ -3,13 +3,15 @@
     <div>{{item.name}}</div>
     <div>{{item.price | currency}}</div>
     <div>{{item.description}}</div>
+    <div>Quantity: {{item.quantity}}</div>
     <counter @updateCount="updateCount"></counter>
-    Total: {{count * item.price | currency}}
-    <add-button>Add to Basket</add-button>
+    Total: {{totalPrice | currency}}
+    <add-button :item="item">Update Basket</add-button>
   </div>
 </template>
 
 <script>
+  import { eventBus } from '../main.js';
   import Counter from './Counter.vue';
   import AddButton from './AddButton.vue';
   export default {
@@ -20,12 +22,17 @@
     },
     data() {
       return {
-        count: 0
+        totalPrice: 0
       }
     },
     methods: {
       updateCount(count) {
-        this.count = count;
+        this.item.quantity = count;
+        this.calculateItemTotal()
+      },
+      calculateItemTotal() {
+        this.item.totalPrice = this.item.quantity * this.item.price
+        this.totalPrice = this.item.totalPrice;
       }
     }
   }
