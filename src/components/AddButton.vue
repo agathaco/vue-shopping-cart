@@ -1,5 +1,5 @@
 <template>
-  <button class="button" @click="addToCart(item)">
+  <button class="button" @click="addToCart(item, count)">
     <slot></slot>
   </button>
 </template>
@@ -9,15 +9,35 @@ import { eventBus } from '../main';
 
 export default {
   props: ['item'],
-  methods: {
-    addToCart(item) {
-        eventBus.$emit('updateCart', item)
+  data() {
+    return {
+      count: 0,
     }
+  },
+  methods: {
+    // sending the count to app.vue to update the global array of items
+    addToCart(item, count) {
+      eventBus.$emit('updateCart', item, this.count)
+    },
+  },
+  created() {
+    // get the count when card counter is updated
+    eventBus.$on('updateCardCount', (count, item) => {
+      if (item.id === this.item.id) {
+        this.count = count;
+      }
+    }),
+
+    // get the count when basket counter is updated
+    eventBus.$on('updateBasketCount', (count, item) => {
+      if (item.id === this.item.id) {
+        this.count = count;
+      }
+    })
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .button {
   margin: 10px auto;

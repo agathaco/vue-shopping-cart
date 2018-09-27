@@ -3,8 +3,8 @@
     <div>{{item.name}}</div>
     <div>{{item.price | currency}}</div>
     <div>{{item.description}}</div>
-    <div>Quantity: {{item.quantity}}</div>
-    <counter @updateCount="updateCount"></counter>
+    <div>In Basket: {{item.quantity}}</div>
+    <counter :item="item"></counter>
     Total: {{totalPrice | currency}}
     <add-button :item="item">Update Basket</add-button>
   </div>
@@ -22,19 +22,27 @@
     },
     data() {
       return {
-        totalPrice: 0
+        totalPrice: 0,
       }
     },
     methods: {
-      updateCount(count) {
-        this.item.quantity = count;
-        this.calculateItemTotal()
+      updateTotal(count, item) {
+        this.totalPrice = item.price * count;
       },
-      calculateItemTotal() {
-        this.item.totalPrice = this.item.quantity * this.item.price
-        this.totalPrice = this.item.totalPrice;
-      }
+    },
+    created() {
+      eventBus.$on('updateBasketCount', (count, item) => {
+        if (item.id === this.item.id) {
+          this.updateTotal(count, item)
+        }
+      })
+      eventBus.$on('updateCardCount', (count, item) => {
+        if (item.id === this.item.id) {
+          this.updateTotal(count, item)
+        }
+      })
     }
+
   }
 </script>
 
